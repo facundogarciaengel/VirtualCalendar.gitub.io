@@ -5,10 +5,21 @@ const port = 4000;
 
 const app = express()
 
+//import routers
+const users = require("./routes/users")
 
-app.get("/", (req,res)=>{
+
+//middlewares section
+
+app.use("/static", express.static(path.join(__dirname,"static"))) // middleware for static documents
+
+//router code section
+app.use(users); // using a router
+
+
+app.get("/", function(req,res){
     console.log(__dirname)
-    return res.sendFile(path.join(__dirname,"static", "index.html")); 
+    return res.sendFile(path.join(__dirname,"views", "index.html")); 
 })
 
 
