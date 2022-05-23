@@ -1,29 +1,36 @@
-const path = require("path")
+//Usando modulos nátivos:
+const path = require("path") // path: nos permite admistrar rutas de archivos
+const morgan = require("morgan")
 
-const express = require("express");
-const port = 4000; 
+//Usando modules externos
+const express = require("express")
+const port = 4000
+
+//Importando router
+const users = require("./routes/users") // También podemos usar: require("./routes/users.js")
 
 const app = express()
 
-//import routers
-const users = require("./routes/users")
+//settings 
+app.set('view engine', 'ejs')
+app.set("views", path.join(__dirname, "views"))
 
 
-//middlewares section
+//Sección para los middleware
+app.use(morgan('dev'))
+app.use("/static",express.static(path.join(__dirname,"static"))) //Middleware para archivos estaticos
+app.use(express.json())
 
-app.use("/static", express.static(path.join(__dirname,"static"))) // middleware for static documents
-
-//router code section
-app.use(users); // using a router
-
-
-app.get("/", function(req,res){
-    console.log(__dirname)
-    return res.sendFile(path.join(__dirname,"views", "index.html")); 
-})
+// Sección de codigo para los router
+app.use(users) // Usando un router
 
 
+// req: request(peticion) y res: response(respuesta)
+// app.get("/",function(req,res){
+//     console.log(__dirname) // Ubicación o ruta de nuestro proyecto
+//     return res.sendFile(path.join(__dirname,"views","index.html"))
+// })
 
-app.listen(port, ()=>{
-    console.log("Escuchando en http://localhost:"+port)
+app.listen(port,()=>{
+    console.log("Escuchando en: http://localhost:"+port)
 })

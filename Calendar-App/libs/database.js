@@ -7,30 +7,18 @@ const connection = mysql.createConnection({
     port: 3306,
     user: 'usuario',
     password:'robot',
-    database: 'calendarapp'
+    database: 'organizerapp'
 })
 
-// function myCreateConnection(object){
-//     return {
-//         info:{
-//             name: "Coneccion personalizada",
-//             status: "Succes"
-//         },
-//         query: function(){
-//             console.log("Realizando consulta...")
-//         }
-//     }
-// }
 
-//export the connection inside the object
-
-function query(sql){
-    const miPromesa = new Promise(function(resolve,reject){
-        connection.query(sql,function(error, result, fields){
+function query(sql,data){
+    const miPromesa = new Promise(function (resolve,reject){
+        connection.query(sql,data,function(error,result,fields){
             if(error!=null){
                 console.log(error)
+    
                 return reject({
-                    error: true,
+                    error:true,
                     message:error.sqlMessage
                 })
             }else{
@@ -38,8 +26,25 @@ function query(sql){
             }
         })
     })
-    return miPromesa; 
+
+    return miPromesa
+    
 }
+
+// function myCreateConnection(objeto){
+//     //procesar objeto
+
+//     return {
+//         info:{
+//             name:"Connection personalizada",
+//             status:"success"
+//         },
+//         query:function(){
+//             console.log("Realizando consulta...")
+//         }
+//     }
+// }
+
 module.exports = {
     connection,
     query
